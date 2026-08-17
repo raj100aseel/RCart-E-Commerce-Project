@@ -5,6 +5,7 @@ Backend : Spring Boot + Microservices
 Database : MySQL 
 Frontend : Angular
 
+GitHub Repo Url: https://github.com/raj100aseel/RCart-E-Commerce-Project.git
 
 RCart e-commerce Web Application
 --------------------------------
@@ -104,15 +105,62 @@ Table Name : orders
 Table name : order_items
 
 
+Creating Databases and Database Tables in MySQL
+-----------------------------------------------
+Product-Service
+---------------
+mysql> create database if not exists product_db;
+
+mysql> create table if not exists products (
+    -> id bigint auto_increment primary key,
+    -> name varchar(150) not null,
+    -> description varchar(500),
+    -> price double not null,
+    -> image_url varchar(500),
+    -> category varchar(100),
+    -> stock_quantity int default 0,
+    -> created_at timestamp default current_timestamp
+    -> );
+
+Insert the records into the products table
 
 
+Customer-Service
+----------------
+mysql>create database if not exists customer_db;
+
+mysql> create table if not exists customers (
+    -> id bigint auto_increment primary key,
+    -> name varchar(150) not null,
+    -> email varchar(150) not null unique,
+    -> password varchar(150) not null,
+    -> phone varchar(20),
+    -> address varchar(500),
+    -> created_at timestamp default current_timestamp
+    -> );
+
+Order-Service
+-------------
+mysql> create database if not exists order_db;
+
+mysql> create table if not exists orders (
+    -> id bigint auto_increment primary key,
+    -> customer_id bigint not null,
+    -> order_date timestamp default current_timestamp,
+    -> total_amount double not null,
+    -> status varchar(30) default 'PLACED'
+    -> );
 
 
-
-
-
-
-
+mysql> create table if not exists order_items (
+    -> id bigint auto_increment primary key,
+    -> order_id bigint not null,
+    -> product_id bigint not null,
+    -> product_name varchar(150),
+    -> price double not null,
+    -> quantity int not null,
+    -> foreign key (order_id) references orders(id) on delete cascade
+    -> );
 
 
 
