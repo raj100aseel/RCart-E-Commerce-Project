@@ -1,0 +1,151 @@
+
+Full Stack Java Project
+-----------------------
+Backend : Spring Boot + Microservices
+Database : MySQL 
+Frontend : Angular
+
+
+RCart e-commerce Web Application
+--------------------------------
+RCart is a simplified e-commerce platform built using Microservices architecture -
+service discovery, an API Gateway and inter-service communication using OpenFeign
+
+RCart e-commerce web app - High Level Architecture
+---------------------------------------------------
+	Refer diagram RCart App - High Level Architecture.png
+
+
+Modules of the Project
+----------------------
+- Backend Modules (5 Spring Boot Microservices)
+       Module        Port             Responsibility
+    -----------------------------------------------------------------------------------
+     eureka-server   8761     Service registry - all other services register here
+		 	      and discover each other by name
+
+     api-gateway     8080     Single entry point for the Angular App. Routes requests
+		   	      by path prefix to the correct microservice and handles 
+ 
+     product-service 8081     Product Catalog: create, read, update, delete products.
+			      Search and filter by category, reduce stock when
+		  	      an order is placed 
+
+     customer-service 8082    Customer registration and login, customer profile lookup
+
+     order-service   8083     Place orders: validates the customer and fetches live
+		  	      product data via Feign, calculate totals, reduces stock
+			      and stores the order
+     ----------------------------------------------------------------------------------- 
+
+
+- Frontend Modules
+ ------------------------------------------------------------------------------------
+  Module                              Purpose
+ ------------------------------------------------------------------------------------
+  models/                   TypeScript interfaces: Product, Customer, Order, CartItem
+
+  services/                 ProductService, CustomerService, OrderService (HTTP calls to
+			     the gateway)
+
+  components/navbar         Top navigation bar - shows cart count and logged-in customer name
+
+  components/product-list   Home page - product grid with search and category filter
+
+  components/product-detail Single product view with quantity selector and Add to Cart
+
+  components/cart           Cart contents, quantity editing, subtotal/total calculation
+
+  components/checkout       Order Confirmation - submits the order to order-service
+
+  components/admin-products Admin CRUD screen for managing the product catalog
+
+  app.module.ts/
+  app-routing.module.ts    Root NgModule wiring and route table
+  -------------------------------------------------------------------------------------
+
+
+- Module Interaction Flow  (Placing an order)
+    - Customer browses product-list, adds items -> cart.service.ts stores them in local 
+      storage
+
+    - Customer clicks Proceed to Checkout 
+    
+    - On Checkout, clicking Confirm Order calls order.service.ts -> 
+      POST http://localhost:8080/api/orders
+
+    - API Gateway routes this to ORDER-SERVICE (resolved via Eureka)
+
+    - Order Service calls CUSTOMER-SERVICE (validate customer) and PRODUCT-SERVICE
+      (fetch price, reduce stock) via Feign click - both resolved via Eureka
+
+    - Order and OrderItems are saved to order_db; the Angular App cleans the Cart 
+	and navigates to order-history
+
+
+Database Design & Tables
+-----------------------
+Each microservice owns it own MySQL Database (database-per-service pattern)
+
+Product Service
+---------------
+Database Name : product_db
+Table Name : products
+
+Customer Service
+----------------
+Database Name : customer_db
+Table Name : customers
+
+Order Service
+-------------
+Database Name : order_db
+Table Name : orders
+Table name : order_items
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
