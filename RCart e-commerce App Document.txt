@@ -166,12 +166,27 @@ mysql> create table if not exists order_items (
 Backend (Spring Boot + Microservices)
 -------------------------------------
 Step 1: Eureka Server (Service Registry) - port 8761
+		- EurekaServerApplication.java
+		- application.properties
 
 Step 2: API Gateway - port 8080
+		- ApiGatewayApplication.java
+		- CorsConfig.java
+		- application.properties
 
 	CORS => Cross Origin Resource Sharing
 
 Step 3: Product Service - Port 8081
+		- ProductServiceApplication.java
+		- Product.java
+		- ProductRepository.java
+		- ProductService.java
+		- application.properties
+		- ProductController.java
+		- CorsConfig.java
+
+
+
 
 
 
