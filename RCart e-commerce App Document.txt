@@ -185,11 +185,26 @@ Step 3: Product Service - Port 8081
 		- ProductController.java
 		- CorsConfig.java
 
+Step 4: Customer Service - Port 8082
+		- CustomerServiceApplication.java
+		- Customer.java
+		- LoginRequest.java
+		- CustomerRepository.java
+		- CustomerService.java
+		- CustomerController.java
+		- CorsConfig.java
+		- application.properties
+	
 
 
 
 
 
+
+Note
+====
+- No class tmw i.e., 21/Aug @7PM (IST)
+- Next class will be on Monday i.e., 24/Aug @7PM (IST)
 
 
 
